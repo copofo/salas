@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #000; /* Bordas da tabela */
+    margin-bottom: 20px; /* Espaçamento entre as tabelas */
+  }
+  th, td {
+    border: 1px solid #000; /* Bordas das células */
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #0B5394; /* Nome dos meses */
+    color: white;
+  }
+  .month-header {
+    background-color: #001F3F; /* Azul bem escuro */
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .days-header, .week-number {
+    background-color: #C9DAF8; /* Sem e nome dos dias da semana */
+    color: #000;
+  }
+  .week-number.highlight {
+    background-color: #6D9EEB; /* Número da semana do ano */
+  }
+  .day-number {
+    background-color: #C9DAF8; /* Número do dia da semana */
+    color: #000;
+  }
+  .sunday {
+    background-color: #EA9999; /* Tom de vermelho claro para domingos */
+    color: #FC0000; /* Cor da fonte para domingos */
+  }
+  .saturday {
+    background-color: #B4A7D6; /* Tom de roxo bem clarinho para sábados */
+  }
+  .holiday {
+    background-color: #FFD966; /* Tom de amarelo opaco para feriados */
+  }
+  .week-number-cell {
+    background-color: #6D9EEB; /* Números da coluna "Sem" */
+    color: #000;
+  }
+</style>
+<title>Calendário 2023</title>
+</head>
+<body>
+
+<h1 style="text-align: center;">Calendário 2023</h1>
+
+<div id="calendar-container"></div>
+
+<script>
+  function getWeekNumber(date) {
+    const onejan = new Date(date.getFullYear(), 0, 1);
+    return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
+  }
+
+  function generateCalendar(year) {
+    const months = [
+      { name: 'Janeiro', days: 31 },
+      { name: 'Fevereiro', days: (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28 },
+      { name: 'Março', days: 31 },
+      { name: 'Abril', days: 30 },
+      { name: 'Maio', days: 31 },
+      { name: 'Junho', days: 30 },
+      { name: 'Julho', days: 31 },
+      { name: 'Agosto', days: 31 },
+      { name: 'Setembro', days: 30 },
+      { name: 'Outubro', days: 31 },
+      { name: 'Novembro', days: 30 },
+      { name: 'Dezembro', days: 31 }
+    ];
+
+    const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+    const calendarContainer = document.getElementById('calendar-container');
+
+    let currentWeekNumber = 1;
+
+    for (let month = 0; month < 12; month++) {
+      const firstDay = new Date(year, month, 1);
+      const startDay = firstDay.getDay();
+      const daysInMonth = months[month].days;
+      
+      const monthDiv = document.createElement('div');
+      monthDiv.className = 'month-container';
+      
+      const monthTable = document.createElement('table');
+      
+      const headerRow = document.createElement('tr');
+      const monthCell = document.createElement('th');
+      monthCell.colSpan = 8; // Adjusted colspan for the new column
+      monthCell.textContent = months[month].name; // Remove the year here
+      monthCell.className = 'month-header'; // Adding the class for styling
+      headerRow.appendChild(monthCell);
+      monthTable.appendChild(headerRow);
+
+      const daysOfWeekRow = document.createElement('tr');
+      const weekNumberHeader = document.createElement('th');
+      weekNumberHeader.textContent = 'Sem'; // New column header
+      weekNumberHeader.className = 'week-number'; // Styling for week number
+      daysOfWeekRow.appendChild(weekNumberHeader);
+      
+      daysOfWeek.forEach(dayName => {
+        const dayCell = document.createElement('th');
+        dayCell.textContent = dayName;
+        dayCell.className = 'days-header'; // Styling for day names
+        daysOfWeekRow.appendChild(dayCell);
+      });
+      monthTable.appendChild(daysOfWeekRow);
+      
+      let currentDay = 1;
+      for (let i = 0; i < 6; i++) {
+        const weekRow = document.createElement('tr');
+        
+        if (i === 0) {
+          currentWeekNumber = getWeekNumber(new Date(year, month, currentDay));
+        }
+        
+        const weekNumberCell = document.createElement('td');
+        if (currentDay <= daysInMonth) {
+          weekNumberCell.textContent = currentWeekNumber;
+          weekNumberCell.className = 'week-number-cell'; // Styling for week number
+          if (currentWeekNumber === getWeekNumber(new Date(year, month, daysInMonth))) {
+            weekNumberCell.classList.add('highlight'); // Styling for week number highlight
+          }
+        }
+        weekRow.appendChild(weekNumberCell);
+        
+        for (let j = 0; j < 7; j++) {
+          if (i === 0 && j < startDay) {
+            const emptyCell = document.createElement('td');
+            weekRow.appendChild(emptyCell);
+          } else if (currentDay <= daysInMonth) {
+            const dayCell = document.createElement('td');
+            dayCell.textContent = currentDay;
+            
+            if (j === 0) {
+              dayCell.className = 'sunday';
+            } else if (j === 6) {
+              dayCell.className = 'saturday';
+            }
+            
+            if (holidays[month + 1] && holidays[month + 1].includes(currentDay)) {
+              dayCell.className += ' holiday';
+            }
+
+            if (currentDay === currentWeekNumber) {
+              dayCell.className += ' week-number-highlight'; // Styling for week number
+            }
+            
+            weekRow.appendChild(dayCell);
+            currentDay++;
+          }
+        }
+        
+        if (currentDay > daysInMonth) {
+          break;
+        }
+        
+        monthTable.appendChild(weekRow);
+        currentWeekNumber++;
+        if (currentWeekNumber > 52) {
+          break;
+        }
+      }
+      monthDiv.appendChild(monthTable);
+      calendarContainer.appendChild(monthDiv);
+      if (currentWeekNumber > 52) {
+        break;
+      }
+    }
+  }
+
+  const holidays = {
+    1: [1],    // Ano Novo
+    4: [21],   // Tiradentes
+    5: [1],    // Dia do Trabalhador
+    6: [15],   // Corpus Christi
+    9: [7],    // Independência do Brasil
+    10: [12],  // Nossa Senhora Aparecida
+    11: [2],   // Finados
+    12: [25],  // Natal
+    6: [19],   // Aniversário de Ribeirão Preto
+    8: [15],   // Assunção de Nossa Senhora (Padroeira de Ribeirão Preto)
+    11: [20]   // Consciência Negra (Feriado municipal)
+  };
+
+  generateCalendar(2023);
+</script>
+
+</body>
+</html>
