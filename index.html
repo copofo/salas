@@ -4,62 +4,71 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  * {
+    user-select: none;
+  }
   body {
     font-family: Arial, sans-serif;
   }
   table {
     border-collapse: collapse;
     width: 100%;
-    border: 2px solid #000; /* Bordas da tabela */
-    margin-bottom: 20px; /* Espaçamento entre as tabelas */
+    border: 2px solid #000;
+    margin-bottom: 20px;
   }
   th, td {
-    border: 1px solid #000; /* Bordas das células */
+    border: 1px solid #000;
     padding: 8px;
     text-align: center;
   }
   th {
-    background-color: #0B5394; /* Nome dos meses */
+    background-color: #0B5394;
     color: white;
   }
   .month-header {
-    background-color: #001F3F; /* Azul bem escuro */
+    background-color: #001F3F;
     color: white;
     font-weight: bold;
     text-align: center;
     padding: 10px 0;
   }
   .days-header, .week-number {
-    background-color: #C9DAF8; /* Sem e nome dos dias da semana */
+    background-color: #C9DAF8;
     color: #000;
   }
   .week-number.highlight {
-    background-color: #6D9EEB; /* Número da semana do ano */
+    background-color: #6D9EEB;
   }
   .day-number {
-    background-color: #C9DAF8; /* Número do dia da semana */
+    background-color: #C9DAF8;
     color: #000;
   }
   .sunday {
-    background-color: #EA9999; /* Tom de vermelho claro para domingos */
-    color: #FC0000; /* Cor da fonte para domingos */
+    background-color: #EA9999;
+    color: #FC0000;
   }
   .saturday {
-    background-color: #B4A7D6; /* Tom de roxo bem clarinho para sábados */
+    background-color: #B4A7D6;
   }
   .holiday {
-    background-color: #FFD966; /* Tom de amarelo opaco para feriados */
+    background-color: #FFD966;
   }
   .week-number-cell {
-    background-color: #6D9EEB; /* Números da coluna "Sem" */
+    background-color: #6D9EEB;
     color: #000;
   }
 </style>
-<title>Calendário 2023</title>
+<title>Calendário Salas de Reuniões</title>
 </head>
 <body>
 
-<h1 style="text-align: center;">Calendário 2023</h1>
+<h1 style="text-align: center;">Calendário Interativo</h1>
+
+<div>
+  <label for="month-selector">Escolha o mês:</label>
+  <select id="month-selector"></select>
+  <br><br>
+</div>
 
 <div id="calendar-container"></div>
 
@@ -69,7 +78,7 @@
     return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
   }
 
-  function generateCalendar(year) {
+  function generateCalendar(year, month) {
     const months = [
       { name: 'Janeiro', days: 31 },
       { name: 'Fevereiro', days: (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28 },
@@ -88,119 +97,141 @@
     const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
     const calendarContainer = document.getElementById('calendar-container');
+    calendarContainer.innerHTML = '';
 
-    let currentWeekNumber = 1;
+    const firstDay = new Date(year, month, 1);
+    const startDay = firstDay.getDay();
+    const daysInMonth = months[month].days;
 
-    for (let month = 0; month < 12; month++) {
-      const firstDay = new Date(year, month, 1);
-      const startDay = firstDay.getDay();
-      const daysInMonth = months[month].days;
-      
-      const monthDiv = document.createElement('div');
-      monthDiv.className = 'month-container';
-      
-      const monthTable = document.createElement('table');
-      
-      const headerRow = document.createElement('tr');
-      const monthCell = document.createElement('th');
-      monthCell.colSpan = 8; // Adjusted colspan for the new column
-      monthCell.textContent = months[month].name; // Remove the year here
-      monthCell.className = 'month-header'; // Adding the class for styling
-      headerRow.appendChild(monthCell);
-      monthTable.appendChild(headerRow);
+    const monthDiv = document.createElement('div');
+    monthDiv.className = 'month-container';
 
-      const daysOfWeekRow = document.createElement('tr');
-      const weekNumberHeader = document.createElement('th');
-      weekNumberHeader.textContent = 'Sem'; // New column header
-      weekNumberHeader.className = 'week-number'; // Styling for week number
-      daysOfWeekRow.appendChild(weekNumberHeader);
-      
-      daysOfWeek.forEach(dayName => {
-        const dayCell = document.createElement('th');
-        dayCell.textContent = dayName;
-        dayCell.className = 'days-header'; // Styling for day names
-        daysOfWeekRow.appendChild(dayCell);
-      });
-      monthTable.appendChild(daysOfWeekRow);
-      
-      let currentDay = 1;
-      for (let i = 0; i < 6; i++) {
-        const weekRow = document.createElement('tr');
-        
-        if (i === 0) {
-          currentWeekNumber = getWeekNumber(new Date(year, month, currentDay));
-        }
-        
-        const weekNumberCell = document.createElement('td');
-        if (currentDay <= daysInMonth) {
-          weekNumberCell.textContent = currentWeekNumber;
-          weekNumberCell.className = 'week-number-cell'; // Styling for week number
-          if (currentWeekNumber === getWeekNumber(new Date(year, month, daysInMonth))) {
-            weekNumberCell.classList.add('highlight'); // Styling for week number highlight
+    const monthTable = document.createElement('table');
+
+    const headerRow = document.createElement('tr');
+    const monthCell = document.createElement('th');
+    monthCell.colSpan = 8;
+    monthCell.textContent = months[month].name;
+    monthCell.className = 'month-header';
+    headerRow.appendChild(monthCell);
+    monthTable.appendChild(headerRow);
+
+    const daysOfWeekRow = document.createElement('tr');
+    const weekNumberHeader = document.createElement('th');
+    weekNumberHeader.textContent = 'Sem';
+    weekNumberHeader.className = 'week-number';
+    daysOfWeekRow.appendChild(weekNumberHeader);
+
+    daysOfWeek.forEach(dayName => {
+      const dayCell = document.createElement('th');
+      dayCell.textContent = dayName;
+      dayCell.className = 'days-header';
+      daysOfWeekRow.appendChild(dayCell);
+    });
+    monthTable.appendChild(daysOfWeekRow);
+
+    let currentDay = 1;
+    for (let i = 0; i < 6; i++) {
+      const weekRow = document.createElement('tr');
+
+      const currentWeekNumber = getWeekNumber(new Date(year, month, currentDay));
+      const weekNumberCell = document.createElement('td');
+      weekNumberCell.textContent = currentWeekNumber;
+      weekNumberCell.className = 'week-number-cell';
+      if (currentWeekNumber === getWeekNumber(new Date(year, month, daysInMonth))) {
+        weekNumberCell.classList.add('highlight');
+      }
+      weekRow.appendChild(weekNumberCell);
+
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && j < startDay) {
+          const emptyCell = document.createElement('td');
+          weekRow.appendChild(emptyCell);
+        } else if (currentDay <= daysInMonth) {
+          const dayCell = document.createElement('td');
+          dayCell.textContent = currentDay;
+
+          dayCell.addEventListener('click', function() {
+            window.location.href = 'pg.html';
+          });
+
+          if (j === 0) {
+            dayCell.className = 'sunday';
+          } else if (j === 6) {
+            dayCell.className = 'saturday';
           }
-        }
-        weekRow.appendChild(weekNumberCell);
-        
-        for (let j = 0; j < 7; j++) {
-          if (i === 0 && j < startDay) {
-            const emptyCell = document.createElement('td');
-            weekRow.appendChild(emptyCell);
-          } else if (currentDay <= daysInMonth) {
-            const dayCell = document.createElement('td');
-            dayCell.textContent = currentDay;
-            
-            if (j === 0) {
-              dayCell.className = 'sunday';
-            } else if (j === 6) {
-              dayCell.className = 'saturday';
-            }
-            
-            if (holidays[month + 1] && holidays[month + 1].includes(currentDay)) {
-              dayCell.className += ' holiday';
-            }
 
-            if (currentDay === currentWeekNumber) {
-              dayCell.className += ' week-number-highlight'; // Styling for week number
-            }
-            
-            weekRow.appendChild(dayCell);
-            currentDay++;
+          if (holidays[month + 1] && holidays[month + 1].includes(currentDay)) {
+            dayCell.className += ' holiday';
           }
-        }
-        
-        if (currentDay > daysInMonth) {
-          break;
-        }
-        
-        monthTable.appendChild(weekRow);
-        currentWeekNumber++;
-        if (currentWeekNumber > 52) {
-          break;
+
+          if (currentDay === currentWeekNumber) {
+            dayCell.className += ' week-number-highlight';
+          }
+
+          weekRow.appendChild(dayCell);
+          currentDay++;
         }
       }
-      monthDiv.appendChild(monthTable);
-      calendarContainer.appendChild(monthDiv);
-      if (currentWeekNumber > 52) {
+
+      if (currentDay > daysInMonth) {
+        break;
+      }
+
+      monthTable.appendChild(weekRow);
+      if (currentDay > daysInMonth) {
         break;
       }
     }
+    monthDiv.appendChild(monthTable);
+    calendarContainer.appendChild(monthDiv);
+  }
+
+  function populateMonthSelector() {
+    const monthSelector = document.getElementById('month-selector');
+    const months = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ];
+
+    months.forEach((month, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = month;
+      monthSelector.appendChild(option);
+    });
+
+    monthSelector.addEventListener('change', function () {
+      const selectedMonth = parseInt(this.value);
+      const year = new Date().getFullYear();
+      generateCalendar(year, selectedMonth);
+    });
   }
 
   const holidays = {
-    1: [1],    // Ano Novo
-    4: [21],   // Tiradentes
-    5: [1],    // Dia do Trabalhador
-    6: [15],   // Corpus Christi
-    9: [7],    // Independência do Brasil
-    10: [12],  // Nossa Senhora Aparecida
-    11: [2],   // Finados
-    12: [25],  // Natal
-    6: [19],   // Aniversário de Ribeirão Preto
-    8: [15],   // Assunção de Nossa Senhora (Padroeira de Ribeirão Preto)
-    11: [20]   // Consciência Negra (Feriado municipal)
+    1: [1],
+    4: [21],
+    5: [1],
+    6: [15],
+    9: [7],
+    10: [12],
+    11: [2],
+    12: [25],
+    6: [19],
+    8: [15],
+    11: [20]
   };
 
-  generateCalendar(2023);
+  function initializeCalendar() {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    populateMonthSelector();
+    generateCalendar(currentYear, currentMonth); // Exibe o mês atual por padrão
+  }
+
+  initializeCalendar();
 </script>
 
 </body>
