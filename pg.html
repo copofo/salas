@@ -1,17 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *{
-            user-select: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  * {
+    user-select: none;
+  }
+  body {
+    font-family: Arial, sans-serif;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #000;
+    margin-bottom: 20px;
+  }
+  th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #0B5394;
+    color: white;
+  }
+  .agenda-header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .month-header {
+    background-color: #001F3F;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .sala {
+    background-color: #C9DAF8;
+    color: #000;
+    font-weight: bold;
+  }
+   .status {
+    background-color: white;
+  }
+  
+  .status.pendente {
+    background-color: yellow;
+  }
+
+  .status.confirmado {
+    background-color: green;
+  }
+
+  .status.cancelado {
+    background-color: red;
+  }
+  
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .agenda-header {
+    background-color: #0B5394;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    th, td {
+      padding: 5px;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left;
+    }
+    th {
+      background-color: #0B5394;
+      color: white;
+    }
+    .sala {
+      background-color: #C9DAF8;
+      color: #000;
+      font-weight: bold;
+    }
+    .status {
+      background-color: white;
+    }
+    .status.pendente {
+      background-color: yellow;
+    }
+    .status.confirmado {
+      background-color: green;
+    }
+    .status.cancelado {
+      background-color: red;
+    }
+  }
+
+</style>
+<title>Agenda de Salas de Reunião</title>
 </head>
 <body>
-    <button><a href="index.html">Voltar</a></button>
+
+<h1 class="agenda-header">AGENDA SALAS DE REUNIÃO</h1>
+
+<div>
+  <label for="day-input">Dia selecionado:</label>
+  <input type="number" id="day-input" value="21" readonly>
+  <span id="month-name">Fevereiro</span>
+</div>
+
+<table>
+  <tr>
+    <th class="sala">SALA</th>
+    <th class="sala">RESP.</th>
+    <th class="sala">UNID.</th>
+    <th class="sala">HORÁRIO</th>
+    <th class="sala">TRIO</th>
+    <th class="sala">STATUS</th>
+  </tr>
+  <tr>
+    <td rowspan="4" class="sala">SALA 1</td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <!-- Repita o mesmo padrão para as outras salas -->
+  
+  <!-- Sala 2 -->
+  
+  <tr>
+    <td rowspan="4" class="sala">SALA 2</td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  
+  <!-- Sala 3 -->
+  
+  <tr>
+    <td rowspan="4" class="sala">SALA 3</td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <td rowspan="4" class="sala">SALA 4</td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  
+  <!-- sala 5 -->
+  
+  <tr>
+    <td rowspan="4" class="sala">SALA 5</td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1"><input type="text" class="input-field" /></td>
+    <td rowspan="1">
+      <select class="status">
+        <option value="pendente">PENDENTE</option>
+        <option value="confirmado" class="confirmado">CONFIRMADO</option>
+        <option value="cancelado" class="cancelado">CANCELADO</option>
+      </select>
+    </td>
+  </tr>
+  
+</table>
+
+<script>
+  // Função para atualizar a cor de fundo e a cor da fonte do campo <option>
+  function updateOptionBackgroundAndFontColor(selectElement) {
+    var selectedOption = selectElement.options[selectElement.selectedIndex];
+    var statusClass = selectedOption.value;
+
+    // Remove todas as classes de status e adiciona a classe correspondente
+    selectElement.className = "status " + statusClass;
+
+    // Define a cor da fonte com base na classe de status
+    if (statusClass !== "pendente") {
+      selectElement.style.color = "white";
+    } else {
+      selectElement.style.color = ""; // Volta à cor padrão (preta)
+    }
+  }
+
+  // Obtém todos os elementos <select> com classe "status"
+  var statusSelects = document.querySelectorAll('select.status');
+
+  // Adiciona um evento de mudança a cada elemento <select>
+  statusSelects.forEach(function(selectElement) {
+    selectElement.addEventListener('change', function() {
+      updateOptionBackgroundAndFontColor(this);
+    });
+
+    // Atualiza a cor de fundo e a cor da fonte inicial
+    updateOptionBackgroundAndFontColor(selectElement);
+  });
+</script>
+
+
+
+
+
+</body>
+</html>
+
+
+
 </body>
 </html>
